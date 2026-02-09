@@ -22,70 +22,32 @@ header {
     margin: 0 auto;
 }
 
-.lang-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
+.header-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0 1rem;
+}
+
+.lang-btn, .settings-btn, .diary-btn {
+    background: rgba(255, 99, 72, 0.1);
+    color: #ff6348;
+    border: 2px solid #ff6348;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: all 0.3s;
+    flex: 1;
+}
+
+.lang-btn:hover, .settings-btn:hover, .diary-btn:hover {
     background: #ff6348;
     color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(255, 99, 72, 0.3);
-}
-
-.lang-btn:hover {
-    background: #ff4a2f;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 99, 72, 0.4);
-}
-
-.settings-btn {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background: #feca57;
-    color: #333;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(254, 202, 87, 0.3);
-}
-
-.settings-btn:hover {
-    background: #fed330;
-    transform: translateY(-2px) rotate(90deg);
-    box-shadow: 0 4px 12px rgba(254, 202, 87, 0.4);
-}
-
-.diary-btn {
-    position: absolute;
-    top: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #26de81;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.5rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(38, 222, 129, 0.3);
-}
-
-.diary-btn:hover {
-    background: #20bf6b;
-    transform: translateX(-50%) translateY(-2px);
-    box-shadow: 0 4px 12px rgba(38, 222, 129, 0.4);
+    box-shadow: 0 4px 8px rgba(255, 99, 72, 0.3);
 }
 
 .modal-wide {
@@ -292,12 +254,6 @@ header {
 }
 
 @media (max-width: 768px) {
-    .diary-btn {
-        top: 3.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
     .modal-wide {
         max-width: 100%;
         margin: 0.5rem;
@@ -770,5 +726,10 @@ footer p {
     
     header h1 {
         font-size: 1.5rem;
+    }
+    
+    .header-buttons button {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
     }
 }
