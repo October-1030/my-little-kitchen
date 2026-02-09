@@ -12,20 +12,22 @@ const recipes = [
         originalImage: "./图片/TJ早餐套餐_原图.png",
         ingredients: [
             {
-                type: "主食",
+                type: "主食（来自 Trader Joe's / 缺德舅）",
                 items: [
-                    "Trader Joe's 大蒜芝士面包棒 (Garlic & Cheese Bread Sticks)",
-                    "来源：缺德舅（Trader Joe's）",
-                    "产品编号：06640-01218"
+                    "🥖 Trader Joe's 大蒜芝士面包棒",
+                    "   英文名：Garlic & Cheese Bread Sticks",
+                    "   产品编号：06640-01218",
+                    "   购买地点：Trader Joe's 各门店",
+                    "   含 8 根，净重 12 oz (340g)"
                 ]
             },
             {
                 type: "配菜",
                 items: [
-                    "鸡蛋 2-3 个",
-                    "香肠 2 根",
-                    "黄瓜 适量",
-                    "彩椒 适量"
+                    "🥚 鸡蛋 2-3 个",
+                    "🌭 香肠 2 根",
+                    "🥒 黄瓜 适量",
+                    "🫑 彩椒 适量"
                 ]
             }
         ],
@@ -57,6 +59,6 @@ const recipes = [
             "香肠选择自己喜欢的品牌"
         ],
         tags: ["快手早餐", "西式", "Trader Joe's", "营养均衡", "comfort food"],
-        notes: "第一次吃完才发现很好吃，特别是 Trader Joe's 的大蒜芝士面包棒！以后要常备。"
+        notes: "第一次吃完才发现很好吃，特别是 Trader Joe's（缺德舅）的大蒜芝士面包棒！\n\n📍 购买地点：Trader Joe's 各门店\n🏷️ 产品编号：06640-01218\n💰 价格实惠，一盒含 8 根面包棒\n🔥 加热方式：烤箱 350°F 烤 3-5 分钟即可\n\n强烈推荐！以后要常备在冰箱。"
     }
 ];
