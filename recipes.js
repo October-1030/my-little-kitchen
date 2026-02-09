@@ -92,6 +92,14 @@ const recipes = [
         tags: ["快手早餐", "西式", "Trader Joe's", "营养均衡", "comfort food"],
         tagsEn: ["Quick Breakfast", "Western", "Trader Joe's", "Balanced", "Comfort Food"],
         notes: "第一次吃完才发现很好吃，特别是 Trader Joe's（缺德舅）的大蒜芝士面包棒！\n\n📍 购买地点：Trader Joe's 各门店\n🏷️ 产品编号：06640-01218\n💰 价格实惠，一盒含 8 根面包棒\n🔥 加热方式：烤箱 350°F 烤 3-5 分钟即可\n\n强烈推荐！以后要常备在冰箱。",
-        notesEn: "Discovered how delicious this is after finishing! The Trader Joe's Garlic & Cheese Bread Sticks are amazing!\n\n📍 Where to buy: Trader Joe's stores\n🏷️ Product #: 06640-01218\n💰 Great value, 8 bread sticks per box\n🔥 How to heat: Oven at 350°F for 3-5 minutes\n\nHighly recommended! Will keep in stock."
+        notesEn: "Discovered how delicious this is after finishing! The Trader Joe's Garlic & Cheese Bread Sticks are amazing!\n\n📍 Where to buy: Trader Joe's stores\n🏷️ Product #: 06640-01218\n💰 Great value, 8 bread sticks per box\n🔥 How to heat: Oven at 350°F for 3-5 minutes\n\nHighly recommended! Will keep in stock.",
+        nutrition: {
+            calories: 650,
+            protein: 28,
+            carbs: 55,
+            fat: 32,
+            fiber: 3,
+            sodium: 850
+        }
     }
 ];

@@ -9,8 +9,10 @@
 <body>
     <header>
         <button id="lang-toggle" class="lang-btn">🌐 English</button>
+        <button id="settings-btn" class="settings-btn">⚙️</button>
         <h1 data-zh="🍽️ 我家的小饭桌" data-en="🍽️ My Little Kitchen">🍽️ 我家的小饭桌</h1>
         <p data-zh="记录我家喜欢的菜谱，保存美好的味道" data-en="Saving delicious memories, one recipe at a time">记录我家喜欢的菜谱，保存美好的味道</p>
+        <div id="user-profile-indicator" class="profile-indicator" style="display: none;"></div>
     </header>
 
     <nav class="tabs">
@@ -34,6 +36,72 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <div id="recipe-detail"></div>
+        </div>
+    </div>
+
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-settings">&times;</span>
+            <h2 data-zh="⚙️ 运动员营养设置" data-en="⚙️ Athlete Profile">⚙️ 运动员营养设置</h2>
+            <p class="settings-subtitle" data-zh="设置个人信息，获取个性化营养建议" data-en="Set your profile for personalized nutrition insights">设置个人信息，获取个性化营养建议</p>
+            
+            <form id="profile-form">
+                <div class="form-group">
+                    <label data-zh="年龄" data-en="Age">年龄</label>
+                    <input type="number" id="age" min="6" max="80" required>
+                    <span class="unit" data-zh="岁" data-en="years">岁</span>
+                </div>
+
+                <div class="form-group">
+                    <label data-zh="性别" data-en="Gender">性别</label>
+                    <select id="gender" required>
+                        <option value="male" data-zh="男" data-en="Male">男</option>
+                        <option value="female" data-zh="女" data-en="Female">女</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-zh="体重" data-en="Weight">体重</label>
+                    <input type="number" id="weight" min="20" max="200" step="0.1" required>
+                    <span class="unit">kg</span>
+                </div>
+
+                <div class="form-group">
+                    <label data-zh="运动项目" data-en="Sport">运动项目</label>
+                    <select id="sport" required>
+                        <option value="soccer" data-zh="足球" data-en="Soccer">足球</option>
+                        <option value="basketball" data-zh="篮球" data-en="Basketball">篮球</option>
+                        <option value="swimming" data-zh="游泳" data-en="Swimming">游泳</option>
+                        <option value="running" data-zh="跑步/田径" data-en="Running/Track">跑步/田径</option>
+                        <option value="tennis" data-zh="网球" data-en="Tennis">网球</option>
+                        <option value="cycling" data-zh="自行车" data-en="Cycling">自行车</option>
+                        <option value="weightlifting" data-zh="举重/力量训练" data-en="Weightlifting">举重/力量训练</option>
+                        <option value="gymnastics" data-zh="体操" data-en="Gymnastics">体操</option>
+                        <option value="martial-arts" data-zh="武术/搏击" data-en="Martial Arts">武术/搏击</option>
+                        <option value="other" data-zh="其他" data-en="Other">其他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-zh="训练强度" data-en="Training Intensity">训练强度</label>
+                    <select id="intensity" required>
+                        <option value="light" data-zh="轻度 (每周2-3次)" data-en="Light (2-3x/week)">轻度 (每周2-3次)</option>
+                        <option value="moderate" data-zh="中度 (每周4-5次)" data-en="Moderate (4-5x/week)">中度 (每周4-5次)</option>
+                        <option value="intense" data-zh="高强度 (每天训练)" data-en="Intense (Daily training)">高强度 (每天训练)</option>
+                        <option value="athlete" data-zh="专业运动员 (每天多次)" data-en="Professional (Multiple daily)">专业运动员 (每天多次)</option>
+                    </select>
+                </div>
+
+                <div class="nutrition-preview" id="nutrition-preview" style="display: none;">
+                    <h3 data-zh="📊 你的每日营养目标" data-en="📊 Your Daily Nutrition Goals">📊 你的每日营养目标</h3>
+                    <div class="nutrition-goals"></div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" data-zh="保存设置" data-en="Save Profile">保存设置</button>
+                    <button type="button" id="clear-profile" class="btn-secondary" data-zh="清除数据" data-en="Clear Profile">清除数据</button>
+                </div>
+            </form>
         </div>
     </div>
 
