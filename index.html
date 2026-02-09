@@ -10,6 +10,7 @@
     <header>
         <button id="lang-toggle" class="lang-btn">🌐 English</button>
         <button id="settings-btn" class="settings-btn">⚙️</button>
+        <button id="diary-btn" class="diary-btn" data-zh="📔 今日饮食" data-en="📔 Today">📔 今日饮食</button>
         <h1 data-zh="🍽️ 我家的小饭桌" data-en="🍽️ My Little Kitchen">🍽️ 我家的小饭桌</h1>
         <p data-zh="记录我家喜欢的菜谱，保存美好的味道" data-en="Saving delicious memories, one recipe at a time">记录我家喜欢的菜谱，保存美好的味道</p>
         <div id="user-profile-indicator" class="profile-indicator" style="display: none;"></div>
@@ -36,6 +37,44 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <div id="recipe-detail"></div>
+        </div>
+    </div>
+
+    <div id="diary-modal" class="modal">
+        <div class="modal-content modal-wide">
+            <span class="close-diary">&times;</span>
+            <h2 data-zh="📔 今日饮食记录" data-en="📔 Today's Food Diary">📔 今日饮食记录</h2>
+            <p class="diary-date" id="diary-date"></p>
+            
+            <div class="nutrition-summary" id="nutrition-summary" style="display: none;">
+                <h3 data-zh="📊 今日营养总览" data-en="📊 Today's Nutrition Summary">📊 今日营养总览</h3>
+                <div class="nutrition-bars" id="nutrition-bars"></div>
+                <div class="nutrition-suggestions" id="nutrition-suggestions"></div>
+            </div>
+
+            <div class="diary-section">
+                <h3 data-zh="🍽️ 已添加的餐食" data-en="🍽️ Meals Added">🍽️ 已添加的餐食</h3>
+                <div id="diary-items-list" class="diary-items-list">
+                    <p class="empty-message" data-zh="还没有添加任何餐食，从下方菜谱中选择吧！" data-en="No meals added yet. Choose from recipes below!">还没有添加任何餐食，从下方菜谱中选择吧！</p>
+                </div>
+            </div>
+
+            <div class="diary-section">
+                <h3 data-zh="📖 从菜谱添加" data-en="📖 Add from Recipes">📖 从菜谱添加</h3>
+                <div id="recipe-picker" class="recipe-picker"></div>
+            </div>
+
+            <div class="diary-section">
+                <h3 data-zh="🍎 添加水果/其他" data-en="🍎 Add Fruits/Others">🍎 添加水果/其他</h3>
+                <div class="fruit-picker">
+                    <select id="fruit-select" class="fruit-select">
+                        <option value="" data-zh="选择水果..." data-en="Select fruit...">选择水果...</option>
+                    </select>
+                    <input type="number" id="fruit-amount" placeholder="100" min="10" max="1000" step="10" class="fruit-amount">
+                    <span data-zh="克" data-en="g">克</span>
+                    <button id="add-fruit-btn" class="btn-primary btn-small" data-zh="添加" data-en="Add">添加</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -111,6 +150,7 @@
     </footer>
 
     <script src="recipes.js"></script>
+    <script src="fruits.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

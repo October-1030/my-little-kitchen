@@ -3,6 +3,7 @@ let currentCategory = 'all';
 let currentSearch = '';
 let currentLang = localStorage.getItem('language') || 'zh'; // 默认中文
 let userProfile = JSON.parse(localStorage.getItem('userProfile')) || null;
+let todayDiary = getTodayDiary();
 
 // DOM 元素
 const recipesContainer = document.getElementById('recipes-container');
@@ -18,6 +19,25 @@ const settingsModal = document.getElementById('settings-modal');
 const closeSettings = document.querySelector('.close-settings');
 const profileForm = document.getElementById('profile-form');
 const clearProfileBtn = document.getElementById('clear-profile');
+const diaryBtn = document.getElementById('diary-btn');
+const diaryModal = document.getElementById('diary-modal');
+const closeDiary = document.querySelector('.close-diary');
+
+// 获取今日饮食记录
+function getTodayDiary() {
+    const today = new Date().toISOString().split('T')[0];
+    const allDiaries = JSON.parse(localStorage.getItem('foodDiaries')) || {};
+    if (!allDiaries[today]) {
+        allDiaries[today] = { meals: [], fruits: [] };
+    }
+    return { date: today, data: allDiaries[today], allDiaries };
+}
+
+// 保存今日饮食记录
+function saveTodayDiary() {
+    todayDiary.allDiaries[todayDiary.date] = todayDiary.data;
+    localStorage.setItem('foodDiaries', JSON.stringify(todayDiary.allDiaries));
+}
 
 // 营养需求计算
 function calculateNutritionNeeds(profile) {
@@ -209,6 +229,16 @@ function bindEvents() {
         settingsModal.style.display = 'none';
     });
     
+    // 今日饮食按钮
+    diaryBtn.addEventListener('click', () => {
+        openDiaryModal();
+    });
+    
+    // 关闭今日饮食
+    closeDiary.addEventListener('click', () => {
+        diaryModal.style.display = 'none';
+    });
+    
     // Profile 表单提交
     profileForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -270,7 +300,252 @@ function bindEvents() {
         if (e.target === settingsModal) {
             settingsModal.style.display = 'none';
         }
+        if (e.target === diaryModal) {
+            diaryModal.style.display = 'none';
+        }
     });
+}
+
+// 打开今日饮食模态窗口
+function openDiaryModal() {
+    todayDiary = getTodayDiary();
+    renderDiaryModal();
+    diaryModal.style.display = 'block';
+}
+
+// 渲染今日饮食模态窗口
+function renderDiaryModal() {
+    // 更新日期显示
+    const dateLabel = currentLang === 'zh' ? `今天是 ${todayDiary.date}` : `Today: ${todayDiary.date}`;
+    document.getElementById('diary-date').textContent = dateLabel;
+    
+    // 渲染已添加的餐食列表
+    renderDiaryItems();
+    
+    // 渲染菜谱选择器
+    renderRecipePicker();
+    
+    // 渲染水果选择器
+    renderFruitPicker();
+    
+    // 计算并显示营养汇总
+    renderNutritionSummary();
+}
+
+// 渲染已添加的餐食
+function renderDiaryItems() {
+    const container = document.getElementById('diary-items-list');
+    const items = [...todayDiary.data.meals, ...todayDiary.data.fruits];
+    
+    if (items.length === 0) {
+        const emptyText = currentLang === 'zh' ? 
+            '还没有添加任何餐食，从下方菜谱中选择吧！' : 
+            'No meals added yet. Choose from recipes below!';
+        container.innerHTML = `<p class="empty-message">${emptyText}</p>`;
+        return;
+    }
+    
+    container.innerHTML = items.map((item, index) => {
+        const name = currentLang === 'zh' ? item.name : item.nameEn;
+        const typeLabel = item.type === 'meal' ? 
+            (currentLang === 'zh' ? '菜谱' : 'Recipe') : 
+            (currentLang === 'zh' ? `水果 ${item.amount}g` : `Fruit ${item.amount}g`);
+        return `
+            <div class="diary-item">
+                <div class="diary-item-info">
+                    <div class="diary-item-name">${name} (${typeLabel})</div>
+                    <div class="diary-item-nutrition">
+                        ${item.calories}卡 | 蛋白${item.protein}g | 碳水${item.carbs}g | 脂肪${item.fat}g
+                    </div>
+                </div>
+                <button class="diary-item-remove" onclick="removeDiaryItem(${index})">
+                    ${currentLang === 'zh' ? '移除' : 'Remove'}
+                </button>
+            </div>
+        `;
+    }).join('');
+}
+
+// 移除饮食项
+function removeDiaryItem(index) {
+    const allItems = [...todayDiary.data.meals, ...todayDiary.data.fruits];
+    const item = allItems[index];
+    
+    if (item.type === 'meal') {
+        const mealIndex = todayDiary.data.meals.indexOf(item);
+        todayDiary.data.meals.splice(mealIndex, 1);
+    } else {
+        const fruitIndex = todayDiary.data.fruits.indexOf(item);
+        todayDiary.data.fruits.splice(fruitIndex, 1);
+    }
+    
+    saveTodayDiary();
+    renderDiaryModal();
+}
+
+// 渲染菜谱选择器
+function renderRecipePicker() {
+    const container = document.getElementById('recipe-picker');
+    container.innerHTML = recipes.map(recipe => {
+        const name = currentLang === 'zh' ? recipe.name : recipe.nameEn;
+        const caloriesLabel = currentLang === 'zh' ? '卡' : 'cal';
+        return `
+            <div class="recipe-picker-item" onclick="addRecipeToDiary(${recipe.id})">
+                <img src="${recipe.image}" alt="${name}" class="recipe-picker-image" onerror="this.src='${recipe.originalImage}'">
+                <div class="recipe-picker-info">
+                    <div class="recipe-picker-name">${name}</div>
+                    <div class="recipe-picker-calories">${recipe.nutrition.calories}${caloriesLabel}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// 添加菜谱到日记
+function addRecipeToDiary(recipeId) {
+    const recipe = recipes.find(r => r.id === recipeId);
+    if (!recipe) return;
+    
+    const mealEntry = {
+        type: 'meal',
+        recipeId: recipe.id,
+        name: recipe.name,
+        nameEn: recipe.nameEn,
+        ...recipe.nutrition
+    };
+    
+    todayDiary.data.meals.push(mealEntry);
+    saveTodayDiary();
+    renderDiaryModal();
+}
+
+// 渲染水果选择器
+function renderFruitPicker() {
+    const select = document.getElementById('fruit-select');
+    select.innerHTML = `<option value="">${currentLang === 'zh' ? '选择水果...' : 'Select fruit...'}</option>` +
+        fruits.map(fruit => {
+            const name = currentLang === 'zh' ? fruit.name : fruit.nameEn;
+            return `<option value="${fruit.id}">${name}</option>`;
+        }).join('');
+    
+    // 绑定添加水果按钮
+    document.getElementById('add-fruit-btn').onclick = addFruitToDiary;
+}
+
+// 添加水果到日记
+function addFruitToDiary() {
+    const fruitId = document.getElementById('fruit-select').value;
+    const amount = parseInt(document.getElementById('fruit-amount').value) || 100;
+    
+    if (!fruitId) {
+        alert(currentLang === 'zh' ? '请选择水果' : 'Please select a fruit');
+        return;
+    }
+    
+    const fruit = fruits.find(f => f.id === fruitId);
+    if (!fruit) return;
+    
+    // 按实际重量计算营养
+    const multiplier = amount / 100;
+    const fruitEntry = {
+        type: 'fruit',
+        fruitId: fruit.id,
+        name: fruit.name,
+        nameEn: fruit.nameEn,
+        amount: amount,
+        calories: Math.round(fruit.calories * multiplier),
+        protein: Math.round(fruit.protein * multiplier * 10) / 10,
+        carbs: Math.round(fruit.carbs * multiplier * 10) / 10,
+        fat: Math.round(fruit.fat * multiplier * 10) / 10,
+        fiber: Math.round(fruit.fiber * multiplier * 10) / 10,
+        sodium: Math.round(fruit.sodium * multiplier)
+    };
+    
+    todayDiary.data.fruits.push(fruitEntry);
+    saveTodayDiary();
+    
+    // 重置表单
+    document.getElementById('fruit-select').value = '';
+    document.getElementById('fruit-amount').value = '';
+    
+    renderDiaryModal();
+}
+
+// 计算并显示营养汇总
+function renderNutritionSummary() {
+    const allItems = [...todayDiary.data.meals, ...todayDiary.data.fruits];
+    
+    if (allItems.length === 0 || !userProfile) {
+        document.getElementById('nutrition-summary').style.display = 'none';
+        return;
+    }
+    
+    // 汇总营养
+    const totals = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        sodium: 0
+    };
+    
+    allItems.forEach(item => {
+        totals.calories += item.calories || 0;
+        totals.protein += item.protein || 0;
+        totals.carbs += item.carbs || 0;
+        totals.fat += item.fat || 0;
+        totals.fiber += (item.fiber || 0);
+        totals.sodium += (item.sodium || 0);
+    });
+    
+    const needs = userProfile.nutritionNeeds;
+    
+    // 渲染进度条
+    const barsHtml = ['calories', 'protein', 'carbs', 'fat'].map(key => {
+        const percentage = Math.min(Math.round((totals[key] / needs[key]) * 100), 100);
+        const unit = key === 'calories' ? '' : 'g';
+        const label = {
+            zh: { calories: '卡路里', protein: '蛋白质', carbs: '碳水', fat: '脂肪' },
+            en: { calories: 'Calories', protein: 'Protein', carbs: 'Carbs', fat: 'Fat' }
+        };
+        const statusIcon = percentage >= 90 ? '✅' : percentage >= 70 ? '📌' : '⚠️';
+        
+        return `
+            <div class="nutrition-bar">
+                <div class="nutrition-bar-label">
+                    <span>${statusIcon} ${label[currentLang][key]}</span>
+                    <span>${Math.round(totals[key])}${unit} / ${needs[key]}${unit} (${percentage}%)</span>
+                </div>
+                <div class="nutrition-bar-progress">
+                    <div class="nutrition-bar-fill" style="width: ${percentage}%"></div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    document.getElementById('nutrition-bars').innerHTML = barsHtml;
+    
+    // 生成建议
+    const suggestions = [];
+    if (totals.protein < needs.protein * 0.8) {
+        const diff = needs.protein - totals.protein;
+        suggestions.push(`⚠️ ${currentLang === 'zh' ? `蛋白质还差 ${Math.round(diff)}g` : `Need ${Math.round(diff)}g more protein`}`);
+    }
+    if (totals.calories < needs.calories * 0.7) {
+        suggestions.push(`⚠️ ${currentLang === 'zh' ? '热量摄入不足，记得多吃一些' : 'Calorie intake too low, eat more'}`);
+    }
+    if (totals.protein >= needs.protein) {
+        suggestions.push(`✅ ${currentLang === 'zh' ? '蛋白质已达标！' : 'Protein goal met!'}`);
+    }
+    if (totals.calories >= needs.calories * 0.9) {
+        suggestions.push(`✅ ${currentLang === 'zh' ? '热量摄入充足！' : 'Calorie goal nearly met!'}`);
+    }
+    
+    const suggestionsHtml = suggestions.map(s => `<div class="suggestion-item">${s}</div>`).join('');
+    document.getElementById('nutrition-suggestions').innerHTML = suggestionsHtml;
+    
+    document.getElementById('nutrition-summary').style.display = 'block';
 }
 
 // 获取筛选后的菜谱

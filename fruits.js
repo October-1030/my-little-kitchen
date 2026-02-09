@@ -1,0 +1,147 @@
+// 水果营养数据库 (每100g)
+const fruits = [
+    {
+        id: 'apple',
+        name: '苹果',
+        nameEn: 'Apple',
+        calories: 52,
+        protein: 0.3,
+        carbs: 14,
+        fat: 0.2,
+        fiber: 2.4,
+        vitaminC: 5,
+        sodium: 1
+    },
+    {
+        id: 'banana',
+        name: '香蕉',
+        nameEn: 'Banana',
+        calories: 89,
+        protein: 1.1,
+        carbs: 23,
+        fat: 0.3,
+        fiber: 2.6,
+        vitaminC: 9,
+        sodium: 1
+    },
+    {
+        id: 'orange',
+        name: '橙子',
+        nameEn: 'Orange',
+        calories: 47,
+        protein: 0.9,
+        carbs: 12,
+        fat: 0.1,
+        fiber: 2.4,
+        vitaminC: 53,
+        sodium: 0
+    },
+    {
+        id: 'grape',
+        name: '葡萄',
+        nameEn: 'Grape',
+        calories: 69,
+        protein: 0.7,
+        carbs: 18,
+        fat: 0.2,
+        fiber: 0.9,
+        vitaminC: 4,
+        sodium: 2
+    },
+    {
+        id: 'watermelon',
+        name: '西瓜',
+        nameEn: 'Watermelon',
+        calories: 30,
+        protein: 0.6,
+        carbs: 8,
+        fat: 0.2,
+        fiber: 0.4,
+        vitaminC: 8,
+        sodium: 1
+    },
+    {
+        id: 'strawberry',
+        name: '草莓',
+        nameEn: 'Strawberry',
+        calories: 32,
+        protein: 0.7,
+        carbs: 8,
+        fat: 0.3,
+        fiber: 2,
+        vitaminC: 59,
+        sodium: 1
+    },
+    {
+        id: 'kiwi',
+        name: '猕猴桃',
+        nameEn: 'Kiwi',
+        calories: 61,
+        protein: 1.1,
+        carbs: 15,
+        fat: 0.5,
+        fiber: 3,
+        vitaminC: 93,
+        sodium: 3
+    },
+    {
+        id: 'mango',
+        name: '芒果',
+        nameEn: 'Mango',
+        calories: 60,
+        protein: 0.8,
+        carbs: 15,
+        fat: 0.4,
+        fiber: 1.6,
+        vitaminC: 37,
+        sodium: 1
+    },
+    {
+        id: 'pear',
+        name: '梨',
+        nameEn: 'Pear',
+        calories: 57,
+        protein: 0.4,
+        carbs: 15,
+        fat: 0.1,
+        fiber: 3.1,
+        vitaminC: 4,
+        sodium: 1
+    },
+    {
+        id: 'peach',
+        name: '桃子',
+        nameEn: 'Peach',
+        calories: 39,
+        protein: 0.9,
+        carbs: 10,
+        fat: 0.3,
+        fiber: 1.5,
+        vitaminC: 7,
+        sodium: 0
+    },
+    {
+        id: 'blueberry',
+        name: '蓝莓',
+        nameEn: 'Blueberry',
+        calories: 57,
+        protein: 0.7,
+        carbs: 14,
+        fat: 0.3,
+        fiber: 2.4,
+        vitaminC: 10,
+        sodium: 1
+    },
+    {
+        id: 'cherry',
+        name: '樱桃',
+        nameEn: 'Cherry',
+        calories: 63,
+        protein: 1,
+        carbs: 16,
+        fat: 0.2,
+        fiber: 2.1,
+        vitaminC: 7,
+        sodium: 0
+    }
+];
