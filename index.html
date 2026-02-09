@@ -8,21 +8,22 @@
 </head>
 <body>
     <header>
-        <h1>🍽️ 我家的小饭桌</h1>
-        <p>记录我家喜欢的菜谱，保存美好的味道</p>
+        <button id="lang-toggle" class="lang-btn">🌐 English</button>
+        <h1 data-zh="🍽️ 我家的小饭桌" data-en="🍽️ My Little Kitchen">🍽️ 我家的小饭桌</h1>
+        <p data-zh="记录我家喜欢的菜谱，保存美好的味道" data-en="Saving delicious memories, one recipe at a time">记录我家喜欢的菜谱，保存美好的味道</p>
     </header>
 
     <nav class="tabs">
-        <button class="tab active" data-category="all">全部</button>
-        <button class="tab" data-category="早餐">🌅 早餐</button>
-        <button class="tab" data-category="午餐">🍜 午餐</button>
-        <button class="tab" data-category="晚餐">🍖 晚餐</button>
-        <button class="tab" data-category="小食">🍿 小食</button>
+        <button class="tab active" data-category="all" data-zh="全部" data-en="All">全部</button>
+        <button class="tab" data-category="早餐" data-zh="🌅 早餐" data-en="🌅 Breakfast">🌅 早餐</button>
+        <button class="tab" data-category="午餐" data-zh="🍜 午餐" data-en="🍜 Lunch">🍜 午餐</button>
+        <button class="tab" data-category="晚餐" data-zh="🍖 晚餐" data-en="🍖 Dinner">🍖 晚餐</button>
+        <button class="tab" data-category="小食" data-zh="🍿 小食" data-en="🍿 Snacks">🍿 小食</button>
     </nav>
 
     <div class="controls">
-        <input type="text" id="search" placeholder="🔍 搜索菜谱...">
-        <button id="random" class="btn-random">🎲 随机推荐</button>
+        <input type="text" id="search" placeholder="🔍 搜索菜谱..." data-zh-placeholder="🔍 搜索菜谱..." data-en-placeholder="🔍 Search recipes...">
+        <button id="random" class="btn-random" data-zh="🎲 随机推荐" data-en="🎲 Random">🎲 随机推荐</button>
     </div>
 
     <main id="recipes-container">
@@ -37,8 +38,8 @@
     </div>
 
     <footer>
-        <p>💖 用爱记录每一餐</p>
-        <p class="stats">共 <span id="total-count">0</span> 道菜谱</p>
+        <p data-zh="💖 用爱记录每一餐" data-en="💖 Made with love">💖 用爱记录每一餐</p>
+        <p class="stats"><span data-zh="共" data-en="Total">共</span> <span id="total-count">0</span> <span data-zh="道菜谱" data-en="recipes">道菜谱</span></p>
     </footer>
 
     <script src="recipes.js"></script>

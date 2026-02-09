@@ -16,6 +16,29 @@ header {
     padding: 2rem 1rem;
     text-align: center;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.lang-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ff6348;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(255, 99, 72, 0.3);
+}
+
+.lang-btn:hover {
+    background: #ff4a2f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 99, 72, 0.4);
 }
 
 header h1 {

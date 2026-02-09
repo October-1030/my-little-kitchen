@@ -1,6 +1,7 @@
 // 全局状态
 let currentCategory = 'all';
 let currentSearch = '';
+let currentLang = localStorage.getItem('language') || 'zh'; // 默认中文
 
 // DOM 元素
 const recipesContainer = document.getElementById('recipes-container');
@@ -10,9 +11,36 @@ const tabs = document.querySelectorAll('.tab');
 const modal = document.getElementById('recipe-modal');
 const closeModal = document.querySelector('.close');
 const totalCount = document.getElementById('total-count');
+const langToggle = document.getElementById('lang-toggle');
+
+// 语言切换
+function toggleLanguage() {
+    currentLang = currentLang === 'zh' ? 'en' : 'zh';
+    localStorage.setItem('language', currentLang);
+    updateLanguage();
+    renderRecipes();
+}
+
+function updateLanguage() {
+    // 更新语言按钮
+    langToggle.textContent = currentLang === 'zh' ? '🌐 English' : '🌐 中文';
+    
+    // 更新所有带 data-zh 和 data-en 的元素
+    document.querySelectorAll('[data-zh][data-en]').forEach(el => {
+        el.textContent = el.dataset[currentLang];
+    });
+    
+    // 更新搜索框 placeholder
+    if (searchInput.dataset.zhPlaceholder && searchInput.dataset.enPlaceholder) {
+        searchInput.placeholder = currentLang === 'zh' ? 
+            searchInput.dataset.zhPlaceholder : 
+            searchInput.dataset.enPlaceholder;
+    }
+}
 
 // 初始化
 function init() {
+    updateLanguage();
     renderRecipes();
     updateStats();
     bindEvents();
@@ -20,6 +48,9 @@ function init() {
 
 // 绑定事件
 function bindEvents() {
+    // 语言切换
+    langToggle.addEventListener('click', toggleLanguage);
+
     // 分类切换
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
@@ -73,30 +104,38 @@ function renderRecipes() {
     const filtered = getFilteredRecipes();
     
     if (filtered.length === 0) {
+        const emptyText = currentLang === 'zh' ? 
+            { title: '😔 没有找到菜谱', desc: '试试其他分类或搜索关键词吧' } :
+            { title: '😔 No recipes found', desc: 'Try another category or search term' };
         recipesContainer.innerHTML = `
             <div class="empty-state">
-                <h2>😔 没有找到菜谱</h2>
-                <p>试试其他分类或搜索关键词吧</p>
+                <h2>${emptyText.title}</h2>
+                <p>${emptyText.desc}</p>
             </div>
         `;
         return;
     }
 
-    recipesContainer.innerHTML = filtered.map(recipe => `
-        <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
-            <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image" onerror="this.src='${recipe.originalImage}'">
-            <div class="recipe-info">
-                <div class="recipe-title">${recipe.name}</div>
-                <div class="recipe-meta">
-                    <span>${'⭐'.repeat(recipe.rating)}</span>
-                    <span>⏱️ ${recipe.time}分钟</span>
-                </div>
-                <div class="recipe-tags">
-                    ${recipe.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
+    const timeLabel = currentLang === 'zh' ? '分钟' : 'min';
+    recipesContainer.innerHTML = filtered.map(recipe => {
+        const name = currentLang === 'zh' ? recipe.name : recipe.nameEn;
+        const tags = currentLang === 'zh' ? recipe.tags : recipe.tagsEn;
+        return `
+            <div class="recipe-card" onclick="showRecipeDetail(${recipe.id})">
+                <img src="${recipe.image}" alt="${name}" class="recipe-image" onerror="this.src='${recipe.originalImage}'">
+                <div class="recipe-info">
+                    <div class="recipe-title">${name}</div>
+                    <div class="recipe-meta">
+                        <span>${'⭐'.repeat(recipe.rating)}</span>
+                        <span>⏱️ ${recipe.time}${timeLabel}</span>
+                    </div>
+                    <div class="recipe-tags">
+                        ${tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // 显示菜谱详情
@@ -104,46 +143,70 @@ function showRecipeDetail(recipeId) {
     const recipe = recipes.find(r => r.id === recipeId);
     if (!recipe) return;
 
+    const name = currentLang === 'zh' ? recipe.name : recipe.nameEn;
+    const timeLabel = currentLang === 'zh' ? '分钟' : 'min';
+    const difficultyLabel = currentLang === 'zh' ? '难度' : 'Difficulty';
+    const ingredientsTitle = currentLang === 'zh' ? '🥘 食材清单' : '🥘 Ingredients';
+    const stepsTitle = currentLang === 'zh' ? '👨‍🍳 做法' : '👨‍🍳 Instructions';
+    const tipsTitle = currentLang === 'zh' ? '💡 小贴士' : '💡 Tips';
+    const tagsTitle = currentLang === 'zh' ? '🏷️ 标签' : '🏷️ Tags';
+    const notesTitle = currentLang === 'zh' ? '📝 备注' : '📝 Notes';
+    const dateLabel = currentLang === 'zh' ? '添加日期：' : 'Date added: ';
+    
+    const ingredients = recipe.ingredients.map(group => {
+        const type = currentLang === 'zh' ? group.type : group.typeEn;
+        const items = currentLang === 'zh' ? group.items : group.itemsEn;
+        return `
+            <h4>${type}</h4>
+            <ul>
+                ${items.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+        `;
+    }).join('');
+    
+    const steps = recipe.steps.map(step => {
+        const title = currentLang === 'zh' ? step.title : step.titleEn;
+        const detail = currentLang === 'zh' ? step.detail : step.detailEn;
+        return `<li><strong>${title}:</strong> ${detail}</li>`;
+    }).join('');
+    
+    const tips = currentLang === 'zh' ? recipe.tips : recipe.tipsEn;
+    const tags = currentLang === 'zh' ? recipe.tags : recipe.tagsEn;
+    const notes = currentLang === 'zh' ? recipe.notes : recipe.notesEn;
+
     const detailHtml = `
-        <img src="${recipe.image}" alt="${recipe.name}" class="recipe-detail-image" onerror="this.src='${recipe.originalImage}'">
-        <h2>${recipe.name}</h2>
+        <img src="${recipe.image}" alt="${name}" class="recipe-detail-image" onerror="this.src='${recipe.originalImage}'">
+        <h2>${name}</h2>
         <div class="recipe-meta">
             <span>${'⭐'.repeat(recipe.rating)} (${recipe.rating}/5)</span>
-            <span>⏱️ ${recipe.time}分钟</span>
-            <span>🍳 难度: ${'⭐'.repeat(recipe.difficulty)}</span>
+            <span>⏱️ ${recipe.time}${timeLabel}</span>
+            <span>🍳 ${difficultyLabel}: ${'⭐'.repeat(recipe.difficulty)}</span>
         </div>
         
-        <h3>🥘 食材清单</h3>
-        ${recipe.ingredients.map(group => `
-            <h4>${group.type}</h4>
-            <ul>
-                ${group.items.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-        `).join('')}
+        <h3>${ingredientsTitle}</h3>
+        ${ingredients}
         
-        <h3>👨‍🍳 做法</h3>
+        <h3>${stepsTitle}</h3>
         <ol>
-            ${recipe.steps.map(step => `
-                <li><strong>${step.title}:</strong> ${step.detail}</li>
-            `).join('')}
+            ${steps}
         </ol>
         
-        <h3>💡 小贴士</h3>
+        <h3>${tipsTitle}</h3>
         <ul>
-            ${recipe.tips.map(tip => `<li>${tip}</li>`).join('')}
+            ${tips.map(tip => `<li>${tip}</li>`).join('')}
         </ul>
         
-        <h3>🏷️ 标签</h3>
+        <h3>${tagsTitle}</h3>
         <div class="recipe-tags">
-            ${recipe.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            ${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
         </div>
         
-        ${recipe.notes ? `
-            <h3>📝 备注</h3>
-            <p>${recipe.notes}</p>
+        ${notes ? `
+            <h3>${notesTitle}</h3>
+            <p style="white-space: pre-line;">${notes}</p>
         ` : ''}
         
-        <p style="margin-top: 2rem; color: #999; font-size: 0.9rem;">添加日期：${recipe.date}</p>
+        <p style="margin-top: 2rem; color: #999; font-size: 0.9rem;">${dateLabel}${recipe.date}</p>
     `;
 
     document.getElementById('recipe-detail').innerHTML = detailHtml;
