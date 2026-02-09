@@ -188,5 +188,104 @@ const recipes = [
             fiber: 1,
             sodium: 5
         }
+    },
+    {
+        id: 3,
+        name: "红烧大猪排",
+        nameEn: "Braised Pork Chops",
+        category: "午餐",
+        categoryEn: "Lunch",
+        rating: 5,
+        difficulty: 2,
+        time: 35,
+        date: "2026-02-08",
+        image: "./图片/红烧大猪排_AI版.png",
+        originalImage: "./图片/红烧大猪排_原图.jpg",
+        ingredients: [
+            {
+                type: "主料",
+                typeEn: "Main Ingredients",
+                items: [
+                    "🥩 大猪排 2-3块（约500g）",
+                    "🧅 葱 2根"
+                ],
+                itemsEn: [
+                    "🥩 Large pork chops 2-3 pieces (about 500g)",
+                    "🧅 Scallions 2 stalks"
+                ]
+            },
+            {
+                type: "调料（预腌）",
+                typeEn: "Marinade",
+                items: [
+                    "🥄 生抽 3勺",
+                    "🥄 老抽 1勺",
+                    "🍶 料酒 2勺",
+                    "🍬 白糖 1勺",
+                    "🧂 盐 适量",
+                    "🧄 姜 3片",
+                    "🧄 蒜 3瓣"
+                ],
+                itemsEn: [
+                    "🥄 Light soy sauce 3 tbsp",
+                    "🥄 Dark soy sauce 1 tbsp",
+                    "🍶 Cooking wine 2 tbsp",
+                    "🍬 Sugar 1 tbsp",
+                    "🧂 Salt to taste",
+                    "🧄 Ginger 3 slices",
+                    "🧄 Garlic 3 cloves"
+                ]
+            }
+        ],
+        steps: [
+            {
+                title: "预腌猪排",
+                titleEn: "Marinate Pork",
+                detail: "猪排加入生抽、老抽、料酒、糖、盐、姜蒜，腌制15-20分钟入味",
+                detailEn: "Marinate pork chops with soy sauces, cooking wine, sugar, salt, ginger and garlic for 15-20 minutes"
+            },
+            {
+                title: "红烧炖煮",
+                titleEn: "Braise",
+                detail: "将腌好的猪排连同调料一起放入锅中，加水没过猪排，大火烧开后转小火慢炖25-30分钟",
+                detailEn: "Place marinated pork chops with marinade in pot, add water to cover, bring to boil then simmer 25-30 minutes on low heat"
+            },
+            {
+                title: "加葱",
+                titleEn: "Add Scallions",
+                detail: "猪排快熟时加入葱段，继续炖5分钟",
+                detailEn: "Add scallion segments when pork is almost done, continue cooking for 5 minutes"
+            },
+            {
+                title: "收汁",
+                titleEn: "Reduce Sauce",
+                detail: "大火收汁，让酱汁变得浓稠光亮，裹在猪排上",
+                detailEn: "Turn to high heat to reduce sauce until thick and glossy, coating the pork chops"
+            }
+        ],
+        tips: [
+            "猪排提前腌制更入味",
+            "慢炖时保持小火，肉质更嫩",
+            "葱不要太早放，避免煮烂",
+            "收汁时要不停翻动，避免糊锅"
+        ],
+        tipsEn: [
+            "Marinating pork beforehand makes it more flavorful",
+            "Keep heat low when simmering for tender meat",
+            "Don't add scallions too early to prevent overcooking",
+            "Stir frequently when reducing sauce to prevent burning"
+        ],
+        tags: ["家常菜", "高蛋白", "红烧", "中式", "下饭菜"],
+        tagsEn: ["Home Cooking", "High Protein", "Braised", "Chinese", "Main Dish"],
+        notes: "经典家常红烧大猪排，酱香浓郁，肉质软嫩！\n\n💪 运动员推荐：\n• 高蛋白（每份约35g）\n• 红烧入味，孩子爱吃\n• 搭配米饭绝配\n\n🍽️ 适合午餐或晚餐主菜",
+        notesEn: "Classic home-style braised pork chops - rich sauce, tender meat!\n\n💪 Great for Athletes:\n• High protein (about 35g per serving)\n• Flavorful and kid-friendly\n• Perfect with rice\n\n🍽️ Ideal for lunch or dinner",
+        nutrition: {
+            calories: 420,
+            protein: 35,
+            carbs: 15,
+            fat: 25,
+            fiber: 1,
+            sodium: 900
+        }
     }
 ];
